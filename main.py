@@ -17,17 +17,17 @@ async def on_message(message):
 
     if message.author == client.user:
         return
-
+    logs = await message.channel.history(limit=10).flatten()
+    print(logs.messages)
     if channel == 'wordle':
         if 'X/6' in user_message:
-            await message.channel.send(f'TANGA MO NAMAN {name}!')
+            await message.channel.send(f'You are so stupid {name}!')
             return
     if channel == 'saltong':
         if 'X/6' in user_message:
-            await message.channel.send(f'TANGA MO NAMAN {name}!')
+            await message.channel.send(f'Napakatanga mo {name}!')
             return
     
-
 
 
 client.run(TOKEN)
