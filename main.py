@@ -34,11 +34,16 @@ async def on_message(message):
                         userScore.append(7-int(j.content.split(" ")[2].split("\n")[0].split("/")[0]))
             scores.append([i,sum(userScore)])
         scores = sorted(scores, key=lambda x: x[1],reverse=True)
-        scores_string = "-----Wordle Leaderboard-----\n"
-        for i in scores:
-            scores_string = scores_string+i[0]+": "+str(i[1])+"\n"
-        await message.channel.send(scores_string)
-        
+        scores_embed = discord.Embed(
+            colour = discord.Colour.green(),
+            title = "Wordle Leaderboard"
+        )
+        scores_msg = ""
+        for i in range(len(scores)):
+            scores_msg = scores_msg + "#" + str(i+1) + " " + str(scores[i][0]) + " (" + str(scores[i][1]) + ")\n"
+        scores_embed.add_field(name="Leaderboard", value=scores_msg)
+        await message.channel.send(embed = scores_embed)
+        return
 
     if user_message == '!command':
         commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz"
@@ -61,12 +66,10 @@ async def on_message(message):
             colour = discord.Colour.green(),
             title = "Blitz Counter"
         )
+        blitz_msg = ""
         for i in range(len(lead_arr)):
-            blitz_embed.add_field(value="#" + str(i+1) + "| " + str(lead_arr[i][0]) + " (" + str(lead_arr[i][1]) + ")\n")
-        blitz_string = "-----{} Blitz Counter-----\n".format(channel)
-        for i in lead_arr:
-            blitz_string = blitz_string+i[0]+": "+str(i[1])+"\n"
-        await message.channel.send(blitz_string)
+            blitz_msg = blitz_msg + "#" + str(i+1) + " " + str(lead_arr[i][0]) + " (" + str(lead_arr[i][1]) + ")\n"
+        blitz_embed.add_field(name="Leaderboard", value = blitz_msg)
         await message.channel.send(embed = blitz_embed)
         return
     if user_message == '!blitz' and (channel == 'wordle' or channel == 'saltong'):
