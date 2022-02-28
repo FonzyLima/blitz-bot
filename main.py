@@ -17,8 +17,27 @@ async def on_message(message):
 
     if message.author == client.user:
         return
-    logs = await message.channel.history(limit=10).flatten()
-    print(logs.messages)
+
+    if user_message == '!blitz':
+        blitz_arr = []
+        lead_arr = []
+        visited = []
+        logs = await message.channel.history(limit=None).flatten()
+        for i in logs:
+            if 'X/6' in i.content:
+                blitz_arr.append(i.author.name)
+        print(blitz_arr)
+        for i in blitz_arr:
+            if i not in visited:
+                lead_arr.append([i,blitz_arr.count(i)])
+                visited.append(i)
+        print(blitz_arr)
+        lead_arr = sorted(lead_arr, key=lambda x: x[1],reverse=True)
+        
+        print(lead_arr)
+                
+
+
     if channel == 'wordle':
         if 'X/6' in user_message:
             await message.channel.send(f'You are so stupid {name}!')
