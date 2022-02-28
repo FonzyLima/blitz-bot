@@ -17,7 +17,10 @@ async def on_message(message):
 
     if message.author == client.user:
         return
-
+    if user_message == '!command':
+        commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz"
+        await message.channel.send(commands)
+        return
     if user_message == '!board' and (channel == 'wordle' or channel == 'saltong'):
         blitz_arr = []
         lead_arr = []
@@ -37,14 +40,11 @@ async def on_message(message):
         await message.channel.send(blitz_string)
         return
     if user_message == '!blitz' and (channel == 'wordle' or channel == 'saltong'):
-        
         logs = await message.channel.history(limit=None).flatten()
         for i in logs:
             if 'X/6' in i.content:
                 await message.channel.send(str(i.author.name)+" is the {} blitz haha".format(channel))
                 return
-
-
     if channel == 'wordle':
         if 'X/6' in user_message:
             await message.channel.send(f'You are so stupid {name}!')
