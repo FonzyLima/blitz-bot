@@ -38,15 +38,21 @@ async def on_message(message):
             colour = discord.Colour.green(),
             title = "Wordle Leaderboard"
         )
-        scores_msg = ""
+        scores_msg_rank = ""
+        scores_msg_name = ""
+        scores_msg_score = ""
         for i in range(len(scores)):
-            scores_msg = scores_msg + "#" + str(i+1) + " " + str(scores[i][0]) + " (" + str(scores[i][1]) + ")\n"
-        scores_embed.add_field(name="Leaderboard", value=scores_msg)
+            scores_msg_rank = scores_msg_rank + "#" + str(i+1)+ "\n"
+            scores_msg_name = scores_msg_name + str(scores[i][0])+ "\n"
+            scores_msg_score = scores_msg_score + str(scores[i][1]) + "\n"
+        scores_embed.add_field(name="Rank", value=scores_msg_rank)
+        scores_embed.add_field(name="Name", value=scores_msg_name)
+        scores_embed.add_field(name="Score", value=scores_msg_score)
         await message.channel.send(embed = scores_embed)
         return
 
     if user_message == '!command':
-        commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz"
+        commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz\n!scores - Show wordle leaderboards"
         await message.channel.send(commands)
         return
     if user_message == '!board' and (channel == 'wordle' or channel == 'saltong'):
@@ -66,10 +72,16 @@ async def on_message(message):
             colour = discord.Colour.green(),
             title = "Blitz Counter"
         )
-        blitz_msg = ""
+        blitz_msg_rank = ""
+        blitz_msg_name = ""
+        blitz_msg_ctr = ""
         for i in range(len(lead_arr)):
-            blitz_msg = blitz_msg + "#" + str(i+1) + " " + str(lead_arr[i][0]) + " (" + str(lead_arr[i][1]) + ")\n"
-        blitz_embed.add_field(name="Leaderboard", value = blitz_msg)
+            blitz_msg_rank = blitz_msg_rank + "#" + str(i+1) + "\n"
+            blitz_msg_name = blitz_msg_name + str(lead_arr[i][0]) + "\n"
+            blitz_msg_ctr = blitz_msg_ctr + str(lead_arr[i][1]) + "\n"
+        blitz_embed.add_field(name="Rank", value=blitz_msg_rank)
+        blitz_embed.add_field(name="Name", value=blitz_msg_name)
+        blitz_embed.add_field(name="Count", value = blitz_msg_ctr)
         await message.channel.send(embed = blitz_embed)
         return
     if user_message == '!blitz' and (channel == 'wordle' or channel == 'saltong'):
