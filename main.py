@@ -18,7 +18,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if user_message == '!blitz':
+    if user_message == '!board' and (channel == 'wordle' or channel == 'saltong'):
         blitz_arr = []
         lead_arr = []
         visited = []
@@ -35,7 +35,14 @@ async def on_message(message):
         for i in lead_arr:
             blitz_string = blitz_string+i[0]+": "+str(i[1])+"\n"
         await message.channel.send(blitz_string)
-                
+        return
+    if user_message == '!blitz' and (channel == 'wordle' or channel == 'saltong'):
+        
+        logs = await message.channel.history(limit=None).flatten()
+        for i in logs:
+            if 'X/6' in i.content:
+                await message.channel.send(str(i.author.name)+" is the {} blitz haha".format(channel))
+                return
 
 
     if channel == 'wordle':
