@@ -57,10 +57,17 @@ async def on_message(message):
                 lead_arr.append([i,blitz_arr.count(i)])
                 visited.append(i)
         lead_arr = sorted(lead_arr, key=lambda x: x[1],reverse=True)
+        blitz_embed = discord.Embed(
+            colour = discord.Colour.green(),
+            title = "Blitz Counter"
+        )
+        for i in range(len(lead_arr)):
+            blitz_embed.add_field(value="#" + str(i+1) + "| " + str(lead_arr[i][0]) + " (" + str(lead_arr[i][1]) + ")\n")
         blitz_string = "-----{} Blitz Counter-----\n".format(channel)
         for i in lead_arr:
             blitz_string = blitz_string+i[0]+": "+str(i[1])+"\n"
         await message.channel.send(blitz_string)
+        await message.channel.send(embed = blitz_embed)
         return
     if user_message == '!blitz' and (channel == 'wordle' or channel == 'saltong'):
         logs = await message.channel.history(limit=None).flatten()
