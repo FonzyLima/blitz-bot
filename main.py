@@ -26,15 +26,15 @@ async def on_message(message):
         for i in logs:
             if 'X/6' in i.content:
                 blitz_arr.append(i.author.name)
-        print(blitz_arr)
         for i in blitz_arr:
             if i not in visited:
                 lead_arr.append([i,blitz_arr.count(i)])
                 visited.append(i)
-        print(blitz_arr)
         lead_arr = sorted(lead_arr, key=lambda x: x[1],reverse=True)
-        
-        print(lead_arr)
+        blitz_string = "-----{} Blitz Counter-----\n".format(channel)
+        for i in lead_arr:
+            blitz_string = blitz_string+i[0]+": "+str(i[1])+"\n"
+        await message.channel.send(blitz_string)
                 
 
 
