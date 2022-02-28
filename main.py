@@ -17,6 +17,29 @@ async def on_message(message):
 
     if message.author == client.user:
         return
+    if user_message == '!scores' and channel == "wordle":
+        scores = []
+        users = []
+        logs = await message.channel.history(limit=None).flatten()
+        for i in logs:
+            if '/6' in i.content:
+                users.append(i.author.name)
+                
+        users = list(dict.fromkeys(users))
+        for i in users:
+            userScore = []
+            for j in logs:
+                if '/6' in j.content and 'X/6' not in j.content:
+                    if i == j.author.name:
+                        userScore.append(7-int(j.content.split(" ")[2].split("\n")[0].split("/")[0]))
+            scores.append([i,sum(userScore)])
+        scores = sorted(scores, key=lambda x: x[1],reverse=True)
+        scores_string = "-----Wordle Leaderboard-----\n"
+        for i in scores:
+            scores_string = scores_string+i[0]+": "+str(i[1])+"\n"
+        await message.channel.send(scores_string)
+        
+
     if user_message == '!command':
         commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz"
         await message.channel.send(commands)
