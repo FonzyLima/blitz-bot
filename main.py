@@ -20,6 +20,7 @@ async def on_message(message):
     if user_message == '!scores' and channel =="saltong":
         scores = []
         users = []
+        await message.add_reaction('❤')
         logs = await message.channel.history(limit=None).flatten()
         for i in logs:
             if '/6' in i.content:
@@ -54,6 +55,7 @@ async def on_message(message):
     if user_message == '!scores' and channel == "wordle":
         scores = []
         users = []
+        await message.add_reaction('❤')
         logs = await message.channel.history(limit=None).flatten()
         for i in logs:
             if '/6' in i.content:
@@ -87,6 +89,7 @@ async def on_message(message):
 
     if user_message == '!command':
         commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz\n!scores - Show wordle leaderboards"
+        await message.add_reaction('❤')
         await message.channel.send(commands)
         return
     if user_message == '!board' and (channel == 'wordle' or channel == 'saltong'):
