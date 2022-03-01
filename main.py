@@ -20,7 +20,7 @@ async def on_message(message):
     if user_message == '!scores' and channel =="saltong":
         scores = []
         users = []
-        await message.add_reaction('❤')
+        await message.add_reaction('👍')
         logs = await message.channel.history(limit=None).flatten()
         for i in logs:
             if '/6' in i.content:
@@ -55,7 +55,7 @@ async def on_message(message):
     if user_message == '!scores' and channel == "wordle":
         scores = []
         users = []
-        await message.add_reaction('❤')
+        await message.add_reaction('👍')
         logs = await message.channel.history(limit=None).flatten()
         for i in logs:
             if '/6' in i.content:
@@ -89,7 +89,7 @@ async def on_message(message):
 
     if user_message == '!command':
         commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz\n!scores - Show wordle leaderboards"
-        await message.add_reaction('❤')
+        await message.add_reaction('👍')
         await message.channel.send(commands)
         return
     if user_message == '!board' and (channel == 'wordle' or channel == 'saltong'):
@@ -135,7 +135,8 @@ async def on_message(message):
         if 'X/6' in user_message:
             await message.channel.send(f'Napakatanga mo {name}!')
             return
-    
+    if ('Wordle' in user_message or 'Saltong' in user_message) and 'X/6' not in user_message:
+        await message.add_reaction('❤')
 
 
 client.run(TOKEN)
