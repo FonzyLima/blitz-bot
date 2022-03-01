@@ -17,6 +17,75 @@ async def on_message(message):
 
     if message.author == client.user:
         return
+    if user_message == '!wordle':
+        scores = []
+        users = []
+        await message.add_reaction('👍')
+        logs = await message.channel.history(limit=None).flatten()
+        for i in logs:
+            if 'Wordle' in i.content and '/6' in i.content:
+                users.append(i.author.name)
+                
+        users = list(dict.fromkeys(users))
+        for i in users:
+            userScore = []
+            for j in logs:
+                if 'Wordle' in j.content and '/6' in j.content and 'X/6' not in j.content:
+                    if i == j.author.name:
+                        userScore.append(7-int(j.content.split(" ")[2].split("\n")[0].split("/")[0]))
+            scores.append([i,sum(userScore)])
+        scores = sorted(scores, key=lambda x: x[1],reverse=True)
+        scores_embed = discord.Embed(
+            colour = discord.Colour.green(),
+            title = "Wordle Leaderboard"
+        )
+        scores_msg_rank = ""
+        scores_msg_name = ""
+        scores_msg_score = ""
+        for i in range(len(scores)):
+            scores_msg_rank = scores_msg_rank + "#" + str(i+1)+ "\n"
+            scores_msg_name = scores_msg_name + str(scores[i][0])+ "\n"
+            scores_msg_score = scores_msg_score + str(scores[i][1]) + "\n"
+        scores_embed.add_field(name="Rank", value=scores_msg_rank)
+        scores_embed.add_field(name="Name", value=scores_msg_name)
+        scores_embed.add_field(name="Score", value=scores_msg_score)
+        await message.channel.send(embed = scores_embed)
+        return
+    if user_message == '!saltong':
+        scores = []
+        users = []
+        await message.add_reaction('👍')
+        logs = await message.channel.history(limit=None).flatten()
+        for i in logs:
+            if 'Saltong' in i.content and '/6' in i.content:
+                users.append(i.author.name)
+        print(list(logs[len(logs)-1].content.split(" ")[1])[4])        
+        users = list(dict.fromkeys(users))
+        for i in users:
+            userScore = []
+            for j in logs:
+                if 'Saltong' in j.content and '/6' in j.content and 'X/6' not in j.content:
+                    if i == j.author.name:
+                        userScore.append(7-int(list(j.content.split(" ")[1])[4]))
+            scores.append([i,sum(userScore)])
+        scores = sorted(scores,key=lambda x: x[1],reverse=True)
+        scores_embed = discord.Embed(
+            colour = discord.Colour.green(),
+            title = "Saltong Leaderboard"
+        )
+        scores_msg_rank = ""
+        scores_msg_name = ""
+        scores_msg_score = ""
+        for i in range(len(scores)):
+            scores_msg_rank = scores_msg_rank + "#" + str(i+1)+ "\n"
+            scores_msg_name = scores_msg_name + str(scores[i][0])+ "\n"
+            scores_msg_score = scores_msg_score + str(scores[i][1]) + "\n"
+        scores_embed.add_field(name="Rank", value=scores_msg_rank)
+        scores_embed.add_field(name="Name", value=scores_msg_name)
+        scores_embed.add_field(name="Score", value=scores_msg_score)
+        await message.channel.send(embed = scores_embed)
+        return
+        
     if user_message == '!scores' and channel =="saltong":
         scores = []
         users = []
@@ -88,9 +157,10 @@ async def on_message(message):
         return
 
     if user_message == '!command':
-        commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz\n!scores - Show wordle leaderboards"
+        commands = "Blitz Bot Commands:\n!board - Show leaderboard of blitz in channel\n!blitz - Show current blitz\n!scores - Show wordle/saltong leaderboards\n\n"
+        new_commands = "For servers with a combined wordle and saltong channel: \n!wordle - Show leaderboard of wordle game\n!saltong - Show leaderboard of saltong game\n"
         await message.add_reaction('👍')
-        await message.channel.send(commands)
+        await message.channel.send(commands+new_commands)
         return
     if user_message == '!board' and (channel == 'wordle' or channel == 'saltong'):
         blitz_arr = []
@@ -137,6 +207,7 @@ async def on_message(message):
             return
     if ('Wordle' in user_message or 'Saltong' in user_message) and 'X/6' not in user_message:
         await message.add_reaction('❤')
+        return
 
 
 client.run(TOKEN)
