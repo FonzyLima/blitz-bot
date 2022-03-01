@@ -17,6 +17,40 @@ async def on_message(message):
 
     if message.author == client.user:
         return
+    if user_message == '!scores' and channel =="saltong":
+        scores = []
+        users = []
+        logs = await message.channel.history(limit=None).flatten()
+        for i in logs:
+            if '/6' in i.content:
+                users.append(i.author.name)
+        print(list(logs[len(logs)-1].content.split(" ")[1])[4])        
+        users = list(dict.fromkeys(users))
+        for i in users:
+            userScore = []
+            for j in logs:
+                if '/6' in j.content and 'X/6' not in j.content:
+                    if i == j.author.name:
+                        userScore.append(7-int(list(j.content.split(" ")[1])[4]))
+            scores.append([i,sum(userScore)])
+        scores = sorted(scores,key=lambda x: x[1],reverse=True)
+        scores_embed = discord.Embed(
+            colour = discord.Colour.green(),
+            title = "Saltong Leaderboard"
+        )
+        scores_msg_rank = ""
+        scores_msg_name = ""
+        scores_msg_score = ""
+        for i in range(len(scores)):
+            scores_msg_rank = scores_msg_rank + "#" + str(i+1)+ "\n"
+            scores_msg_name = scores_msg_name + str(scores[i][0])+ "\n"
+            scores_msg_score = scores_msg_score + str(scores[i][1]) + "\n"
+        scores_embed.add_field(name="Rank", value=scores_msg_rank)
+        scores_embed.add_field(name="Name", value=scores_msg_name)
+        scores_embed.add_field(name="Score", value=scores_msg_score)
+        await message.channel.send(embed = scores_embed)
+        return
+    
     if user_message == '!scores' and channel == "wordle":
         scores = []
         users = []
