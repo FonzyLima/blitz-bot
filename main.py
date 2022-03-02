@@ -200,13 +200,19 @@ async def on_message(message):
     if channel == 'wordle':
         if 'X/6' in user_message:
             await message.channel.send(f'You are so stupid {name}!')
+            await message.add_reaction('😂')
             return
     if channel == 'saltong':
         if 'X/6' in user_message:
             await message.channel.send(f'Napakatanga mo {name}!')
+            await message.add_reaction('😂')
             return
     if ('Wordle' in user_message or 'Saltong' in user_message) and 'X/6' not in user_message:
         await message.add_reaction('❤')
+        return
+    if ('Wordle' in user_message or 'Saltong' in user_message) and 'X/6' in user_message:
+        await message.add_reaction('😂')
+        await message.channel.send(f'Bobo mo naman {name} wew')
         return
 
 
