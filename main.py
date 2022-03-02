@@ -58,8 +58,7 @@ async def on_message(message):
         logs = await message.channel.history(limit=None).flatten()
         for i in logs:
             if 'Saltong' in i.content and '/6' in i.content:
-                users.append(i.author.name)
-        print(list(logs[len(logs)-1].content.split(" ")[1])[4])        
+                users.append(i.author.name)        
         users = list(dict.fromkeys(users))
         for i in users:
             userScore = []
